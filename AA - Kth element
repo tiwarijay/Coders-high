@@ -1,0 +1,99 @@
+# Kth SMALLEST AND LARGEST ELEMENT using Recursion.
+"""
+Aim: I want to find the 6th largest element in the below list.
+L = [12, 1, 16, 8, 9, 44, 8, 5, 4, 10]
+
+We discussed the following approach for Kth element:
+
+Given L = unsorted list; K = index in the sorted version of L.
+
+Step 1: Take the first element of the unsorted list, L[0], as pivot.
+
+Step 2: Compare pivot with every other element of the list L and make two wings - Left wing and right wing.
+        Left wing contains elements smaller than pivot and right wing contains elements bigger than pivot.
+
+Step 3: Get pivot position (pp) using count of elements in left wing (len(left_wing)).
+
+Step 4: Compare pivot position with the desired K.
+        case1: K equal to pp : implies Voila! You got Kth element.
+        case2: K less than pp: implies desired K is in left wing. (repeat step 1 to 4 using left wing)
+        case3: K greater than pp: implies desired K is in right wing. (repeat 1 to 4 using right wing)
+
+Repeating these steps 1 to 4 will eventually lead you to Kth smallest element.
+(i.e. index in the sorted L (ascending order)).
+and Kth largest element ==  (len(L)-K+1)th smallest element and vice versa.
+"""
+
+# Let's get the ingredients ready to use later.
+def leftright(L):
+    """
+    Arguments: L = any list
+    Returns: left wing; right wing and the pivot position (pp)
+    Compares each element of given list L with the pivot element and makes left and right wings.
+    """
+    pivot = L[0]
+    left = []
+    right = []
+    # initialization of wings
+
+    for element in L:
+        if element <= pivot:
+            left.append(element)
+        else:
+            # element > pivot:
+            right.append(right)
+        # we got left and right wings filled.
+    pp = len(left) + 1
+    # pivot position
+    return left, right, pp
+
+
+# Everything is ready, let's jump heads down.
+
+def k_smallest(L, k):
+    """
+    Arguments: L = any List; k =  desired position/index
+    Returns: Kth smallest element
+    """
+    # Step 1: Make the first element of the list L as pivot.
+    pivot = L[0]
+
+    # Step 2: Compare each element of given list L with the pivot element and make left and right wings.
+    left, right, pivot_position = leftright(L)
+    # used the function we prepared earlier.
+
+    """
+    pivot_position = len(left) + 1
+    print(sorted(L))
+    print('Pivot:', pivot, '\nPosition in sorted ASC list:', pivot_position)
+    # Verified. Working fine. 
+    """
+
+    # Step 3: Comparing pivot position with the desired K.
+
+    if k == pivot_position:
+        return pivot
+    elif k < pivot_position:
+        # _____k_____pp_______ : Desired K is in left wing
+        return k_smallest(left, k)
+    else:
+        # ________pp_____k____ : Desired K is in right wing
+        k_new = k - pivot_position
+        return k_smallest(right, k_new)
+        # Note that K will be modified to K-pivot_position
+
+def k_largest(L, k):
+    """
+    Uses already existing k_smallest function and gives kth largest element from the given list L
+    """
+    modified_k = len(L) - k + 1
+    # In a list containing 10(=len(L)) elements, 10th(=k) smallest will be 1st(=modified_k) largest.
+    return k_smallest(L, modified_k)
+
+# let's check!
+l = [12, 11, 16, 8, 9, 44, 18, 5, 4, 100]
+print('Given list: ', l)
+print('Sorted list:', sorted(l))
+k = 2
+print(f'{k}th smallest: ', k_smallest(l, k))
+print(f'{k}th largest: ', k_largest(l, k))
