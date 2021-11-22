@@ -1,0 +1,82 @@
+# QUICK SORT
+# advantage of quick sort: NlogN complexity in average and best case scenario. Worse case: N**2
+
+def quicksort(L):
+    """
+    Argument: L = any unsorted list
+    Return: sorted list
+
+    Approach: (partition)
+    Step 1: Take out pivot element (first, L[0]). {any element can be taken}
+    Step 2: Make left and right wings.
+            modified list =  left wing + [pivot] + right wing
+    Step 3: Repeat steps 1 and 2 recursively on left and right wings, until length of list <= 1.
+    """
+    if len(L) <= 1:
+        # base case, to terminate recursion.
+        return L
+    else:
+        # L has more than one elements.
+        # Step 1: Take out first element of list as pivot.
+        pivot = L[0]
+        L.remove(pivot)
+
+        # Step 2: Make left wing - right wing by comparing each element of the list with the pivot.
+        left = []
+        right = []
+        for element in L:
+            if element <= pivot:
+                # left wing
+                left.append(element)
+            else:
+                # right wing
+                right.append(element)
+        print(f'Intermediate partitions: {left} + {pivot} + {right}')
+        # just to verify the steps
+
+    # Step 3: Recursive call on left wing and right wing
+    return quicksort(left) + [pivot] + quicksort(right)
+    # returns sorted list.
+
+# Let's test it out.
+import random
+L = [random.randint(0, 100) for i in range(10)]
+print('Given list:', L)
+print(quicksort(L))
+
+
+
+"""
+# Using separate function for partition.
+def partition(L):
+    # Step 1: Take out first element of list as pivot.
+    pivot = L[0]
+    L.remove(pivot)
+
+    # Step 2: Make left wing - right wing by comparing each element of the list with the pivot.
+    left = []
+    right = []
+    for element in L:
+        if element <= pivot:
+            # left wing
+            left.append(element)
+        else:
+            # right wing
+            right.append(element)
+    print(f'Intermediate partitions: {left} + {pivot} + {right}')
+    # just to verify the steps
+    return left, pivot, right
+
+def quicksort(L):
+    if len(L) <= 1:
+        return L
+    else:
+        left, pivot, right = partition(L)
+        return quicksort(left) + [pivot] + quicksort(right)
+
+# Let's test it out.
+import random
+L = [random.randint(0, 100) for i in range(10)]
+print('Given list:', L)
+print(quicksort(L))
+"""
