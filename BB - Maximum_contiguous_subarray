@@ -30,3 +30,9 @@ for i in range(len(L)):     # Starting our sweep from left to right
 
 # Voila! Task completed. Print the output.
 print(f'Max Sum: {maxsum}            Sub-array: {L[begin:end+1]}             Subarray Indexes: {begin} to {end}.')
+
+# Different approach
+for i in range(len(L)):
+    sum = max(sum + L[i], 0)
+    maxsum = max(maxsum, sum)
+print('Using shorter code', maxsum)
