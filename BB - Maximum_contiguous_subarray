@@ -1,0 +1,32 @@
+# MAXIMUM CONTAGIOUS SUB-ARRAY
+"""
+# BB Bogie
+# Problem 1
+The input is an array L of n floating-point numbers. The output is the maximum
+sum found in any contiguous sub-array of the input.
+
+For instance, if the input vector contains following ten elements:
+L = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+then the program return the sum of L[2.....6], that is 187.
+"""
+
+# L = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+L = [-1, 9, -10, 50, -20, -30, 45, -12, 17]
+
+sum = 0                     # Represents sum of all elements till i_th index of the list.
+maxsum = 0                  # It represents the required maximum sum of the sub-array
+begin = 0                   # Starting index of the sub-array
+
+for i in range(len(L)):     # Starting our sweep from left to right
+    sum += L[i]             # adding element at i_th position in the list to our 'sum'.
+
+    if sum >= maxsum:       # comparing sum and maxsum
+        maxsum = sum        # updating maxsum
+        end = i             # updating 'end' index of our maximum contagious sub-array
+
+    if sum < 0:             # keeping a check on our sum. If it gets negative, then do following....
+        sum = 0             # reset sum
+        begin = i+1         # reset 'begin' index of sub-array to next index.
+
+# Voila! Task completed. Print the output.
+print(f'Max Sum: {maxsum}            Sub-array: {L[begin:end+1]}             Subarray Indexes: {begin} to {end}.')
